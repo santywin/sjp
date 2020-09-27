@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CatequistasCreateDlg" widgetVar="CatequistasCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateCatequistasTitle}">
+            <h:form id="CatequistasCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{catequistasController.selected != null}">
+                        
+                        <p:outputLabel value="#{bundle.CreateCatequistasLabel_catNombre}" for="catNombre" />
+                        <p:inputText id="catNombre" value="#{catequistasController.selected.catNombre}" title="#{bundle.CreateCatequistasTitle_catNombre}" />
+                        <p:outputLabel value="#{bundle.CreateCatequistasLabel_iglCodigo}" for="iglCodigo" />
+                        <p:selectOneMenu id="iglCodigo" value="#{catequistasController.selected.iglesias}" required="true" requiredMessage="#{bundle.EditCatequistasRequiredMessage_iglCodigo}">
+                            <f:selectItems value="#{iglesiasController.itemsAvailableSelectOne}"
+                                           var="iglCodigoItem"
+                                           itemValue="#{iglCodigoItem}"
+                                           itemLabel="#{iglCodigoItem.iglNombre}"
+                                           />
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{catequistasController.create}" value="#{bundle.Save}" update="display,:CatequistasListForm:datalist,:growl" oncomplete="handleSubmit(args,'CatequistasCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="CatequistasCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

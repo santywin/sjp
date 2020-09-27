@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EstudiantesCreateDlg" widgetVar="EstudiantesCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateEstudiantesTitle}">
+            <h:form id="EstudiantesCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{estudiantesController.selected != null}">
+                        
+                        <p:outputLabel value="#{bundle.CreateEstudiantesLabel_estCodigo}" for="estCodigo" />
+                        <p:inputText id="estCodigo" value="#{estudiantesController.selected.estCodigo}" title="#{bundle.CreateEstudiantesTitle_estCodigo}" required="true" requiredMessage="#{bundle.CreateEstudiantesRequiredMessage_estCodigo}"/>
+                        
+                        <p:outputLabel value="#{bundle.CreateEstudiantesLabel_estCedula}" for="estCedula" />
+                        <p:inputText id="estCedula" value="#{estudiantesController.selected.estCedula}" title="#{bundle.CreateEstudiantesTitle_estCedula}" />
+                        <p:outputLabel value="#{bundle.CreateEstudiantesLabel_estNombre}" for="estNombre" />
+                        <p:inputText id="estNombre" value="#{estudiantesController.selected.estNombre}" title="#{bundle.CreateEstudiantesTitle_estNombre}" />
+                        <p:outputLabel value="#{bundle.CreateEstudiantesLabel_estNomPadre}" for="estNomPadre" />
+                        <p:inputText id="estNomPadre" value="#{estudiantesController.selected.estNomPadre}" title="#{bundle.CreateEstudiantesTitle_estNomPadre}" />
+                        <p:outputLabel value="#{bundle.CreateEstudiantesLabel_estNomMadre}" for="estNomMadre" />
+                        <p:inputText id="estNomMadre" value="#{estudiantesController.selected.estNomMadre}" title="#{bundle.CreateEstudiantesTitle_estNomMadre}" />
+                        <p:outputLabel value="#{bundle.CreateEstudiantesLabel_estTelefono}" for="estTelefono" />
+                        <p:inputText id="estTelefono" value="#{estudiantesController.selected.estTelefono}" title="#{bundle.CreateEstudiantesTitle_estTelefono}" />
+                        <p:outputLabel value="#{bundle.CreateEstudiantesLabel_estCelular}" for="estCelular" />
+                        <p:inputText id="estCelular" value="#{estudiantesController.selected.estCelular}" title="#{bundle.CreateEstudiantesTitle_estCelular}" />
+                        <p:outputLabel value="#{bundle.CreateEstudiantesLabel_estFecNacimiento}" for="estFecNacimiento" />
+                        <p:calendar id="estFecNacimiento" pattern="MM/dd/yyyy" value="#{estudiantesController.selected.estFecNacimiento}" title="#{bundle.EditEstudiantesTitle_estFecNacimiento}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateEstudiantesLabel_estFecBautismo}" for="estFecBautismo" />
+                        <p:calendar id="estFecBautismo" pattern="MM/dd/yyyy" value="#{estudiantesController.selected.estFecBautismo}" title="#{bundle.EditEstudiantesTitle_estFecBautismo}"  showOn="button"/>
+                        
+                        <p:outputLabel value="#{bundle.CreateEstudiantesLabel_estRepresentante}" for="estRepresentante" />
+                        <p:inputText id="estRepresentante" value="#{estudiantesController.selected.estRepresentante}" title="#{bundle.CreateEstudiantesTitle_estRepresentante}" />
+                        
+                        <p:outputLabel value="#{bundle.CreateEstudiantesLabel_estParRepresentante}" for="estParRepresentante" />
+                         <p:selectOneMenu id="estParRepresentante" value="#{estudiantesController.selected.estParRepresentante}"  >
+                            <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
+                            <f:selectItem itemLabel="ABUELO" itemValue="A" />
+                            <f:selectItem itemLabel="TIO" itemValue="T" />
+                            <f:selectItem itemLabel="HERMANO" itemValue="H" />
+                            <f:selectItem itemLabel="PADRINO" itemValue="P" />
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel value="#{bundle.CreateEstudiantesLabel_estPadCas}" for="estPadCas" />
+                         <p:selectOneMenu id="estPadCas" value="#{estudiantesController.selected.estPadCas}" >
+                            <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
+                            <f:selectItem itemLabel="SI" itemValue="S" />
+                            <f:selectItem itemLabel="NO" itemValue="N" />
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel value="#{bundle.CreateEstudiantesLabel_iglCodigo}" for="iglCodigo" />
+                        <p:selectOneMenu id="iglCodigo" value="#{estudiantesController.selected.iglesias}" required="true" requiredMessage="#{bundle.EditEstudiantesRequiredMessage_iglCodigo}">
+                            <f:selectItems value="#{iglesiasController.itemsAvailableSelectOne}"
+                                           var="iglCodigoItem"
+                                           itemValue="#{iglCodigoItem}"
+                                           itemLabel="#{iglCodigoItem.iglNombre}"
+                                           />
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{estudiantesController.create}" value="#{bundle.Save}" update="display,:EstudiantesListForm:datalist,:growl" oncomplete="handleSubmit(args,'EstudiantesCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="EstudiantesCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

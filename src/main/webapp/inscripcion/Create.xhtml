@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <ui:composition>
+
+
+
+        <h:form id="InscripcionesCreateForm">
+
+            <p:panelGrid columns="2" columnClasses="column">
+
+                <p:outputLabel value="Identificación" for="estCedula" />
+                <p:inputText id="estCedula" 
+                             value="#{inscripcionesListController.estudiante.estCedula}" 
+                             title="#{myBundle.CreateEstudiantesTitle_estCedula}" 
+                             size="10" maxlength="10">
+                    <p:ajax event="blur" update="panelEstudiante, panelInscripcion" listener="#{inscripcionesListController.buscarEstudiante()}"/>
+                </p:inputText>
+            </p:panelGrid>
+
+            <h:panelGroup id="PanelIns" >
+
+                <p:panel id="panelEstudiante" rendered="#{inscripcionesListController.boolPanel}" >
+
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel value="Iglesia" for="iglesias" />
+                        <p:selectOneMenu id="iglesias" value="#{inscripcionesListController.iglesia}" required="true" requiredMessage="#{myBundle.CreateEstudiantesRequiredMessage_iglesias}" >
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{iglesiasController.items}"
+                                           var="iglesiasItem"
+                                           itemValue="#{iglesiasItem}"
+                                           itemLabel="#{iglesiasItem.iglNombre.toString()}"
+                                           />
+                            <p:ajax />
+                        </p:selectOneMenu>
+
+
+                        <p:outputLabel value="Nombre" for="estNombre" />
+                        <p:inputText id="estNombre" value="#{inscripcionesListController.estudiante.estNombre}" title="#{myBundle.CreateEstudiantesTitle_estNombre}" size="150" maxlength="150" onkeypress="this.value = this.value.toUpperCase();"/>
+
+                        <p:outputLabel value="Nombres Padre" for="estNomPadre" />
+                        <p:inputText id="estNomPadre" value="#{inscripcionesListController.estudiante.estNomPadre}" title="#{myBundle.CreateEstudiantesTitle_estNomPadre}" size="150" maxlength="150" onkeypress="this.value = this.value.toUpperCase();"/>
+
+                        <p:outputLabel value="Nombre Madre" for="estNomMadre" />
+                        <p:inputText id="estNomMadre" value="#{inscripcionesListController.estudiante.estNomMadre}" title="#{myBundle.CreateEstudiantesTitle_estNomMadre}" size="150" maxlength="150" onkeypress="this.value = this.value.toUpperCase();"/>
+
+                        <p:outputLabel value="Telefono" for="estTelefono" />
+                        <p:inputText id="estTelefono" value="#{inscripcionesListController.estudiante.estTelefono}" title="#{myBundle.CreateEstudiantesTitle_estTelefono}" size="15" maxlength="15" onkeypress="this.value = this.value.toUpperCase();"/>
+
+                        <p:outputLabel value="Celular" for="estCelular" />
+                        <p:inputText id="estCelular" value="#{inscripcionesListController.estudiante.estCelular}" title="#{myBundle.CreateEstudiantesTitle_estCelular}" size="15" maxlength="15" onkeypress="this.value = this.value.toUpperCase();"/>
+
+                        <p:outputLabel value="Fecha Nacimiento" for="estFecNacimiento" />
+                        <p:calendar id="estFecNacimiento" value="#{inscripcionesListController.estudiante.estFecNacimiento}" navigator="true" pattern="dd-MM-yyyy" mask="true" />
+
+                        <p:outputLabel value="Fecha Bautismo" for="estFecBautismo" />
+                        <p:calendar id="estFecBautismo" value="#{inscripcionesListController.estudiante.estFecBautismo}" navigator="true" pattern="dd-MM-yyyy" mask="true" />
+
+                        <p:outputLabel value="Representante" for="estRepresentante" />
+                        <p:inputText id="estRepresentante" value="#{inscripcionesListController.estudiante.estRepresentante}" title="#{myBundle.CreateEstudiantesTitle_estRepresentante}" size="150" maxlength="150" onkeypress="this.value = this.value.toUpperCase();"/>
+
+                        <p:outputLabel value="Parentesto" for="estParRepresentante" />                        
+                        <p:selectOneMenu id="estParRepresentante" value="#{inscripcionesListController.estudiante.estParRepresentante}" >
+                            <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
+                            <f:selectItem itemLabel="ABUELO" itemValue="A" />
+                            <f:selectItem itemLabel="TIO" itemValue="T" />
+                            <f:selectItem itemLabel="HERMANO" itemValue="H" />
+                            <f:selectItem itemLabel="PADRINO" itemValue="P" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Padres Casados" for="estParCas" />                        
+                        <p:selectOneMenu id="estParCas" value="#{inscripcionesListController.estudiante.estPadCas}" >
+                            <f:selectItem itemLabel="Seleccione Uno" itemValue="" />
+                            <f:selectItem itemLabel="SI" itemValue="S" />
+                            <f:selectItem itemLabel="NO" itemValue="N" />
+                        </p:selectOneMenu>
+
+
+                    </p:panelGrid>
+
+                </p:panel>
+
+                <p:panel id="panelInscripcion" rendered="#{inscripcionesListController.boolPanel}">
+
+
+                    <p:dataTable id="datalist1"
+                                 value="#{inscripcionesListController.inscripcionesToList}"
+                                 var="item"
+                                 rowKey="#{item.insCodigo}"
+                                 sortBy="#{item.insFecha}"
+                                 >
+
+
+
+
+
+                        <p:column sortBy="#{item.insFecha}" style="width: 15%">
+                            <f:facet name="header">
+                                <h:outputText value="Fecha"/>
+                            </f:facet>
+                            <h:outputText value="#{item.insFecha}">
+                                <f:convertDateTime pattern="dd-MM-yyyy" />
+                            </h:outputText>
+                        </p:column>
+
+
+                        <p:column sortBy="#{item.insEstado}" >
+                            <f:facet name="header">
+                                <h:outputText value="Estado"/>
+                            </f:facet>
+                            <h:outputText value="#{item.insEstado eq 'R' ? 'REPROBADO': 'APROBADO'}"/>
+                        </p:column>
+
+
+                        <p:column sortBy="#{item.paralelos.periodos.perNombre}" >
+                            <f:facet name="header">
+                                <h:outputText value="Periodos"/>
+                            </f:facet>
+                            <h:outputText value="#{item.paralelos.periodos.perNombre}"/>
+                        </p:column>
+
+
+
+                        <p:column sortBy="#{item.paralelos.niveles.nivNombre}" >
+                            <f:facet name="header">
+                                <h:outputText value="Niveles"/>
+                            </f:facet>
+                            <h:outputText value="#{item.paralelos.niveles.nivNombre}"/>
+                        </p:column>
+
+
+                        <p:column sortBy="#{item.paralelos.parNombre}" >
+                            <f:facet name="header">
+                                <h:outputText value="Paralelos"/>
+                            </f:facet>
+                            <h:outputText value="#{item.paralelos.parNombre}"/>
+                        </p:column>
+
+
+
+
+                    </p:dataTable>
+
+
+                    <p:panelGrid columns="2" columnClasses="column">
+
+
+                        <p:outputLabel value="Periodo" for="periodos" />
+                        <p:selectOneMenu id="periodos" value="#{inscripcionesListController.periodo}" required="true" requiredMessage="#{myBundle.CreateParalelosRequiredMessage_periodos}" >
+
+                            <f:selectItems value="#{inscripcionesListController.periodosToList}"
+                                           var="periodosItem"
+                                           itemValue="#{periodosItem}"
+                                           itemLabel="#{periodosItem.perNombre.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+
+
+                        <p:outputLabel value="Niveles" for="niveles" />
+                        <p:selectOneMenu id="niveles" value="#{inscripcionesListController.nivel}" required="true" requiredMessage="#{myBundle.CreateParalelosRequiredMessage_niveles}" >
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{nivelesController.items}"
+                                           var="nivelesItem"
+                                           itemValue="#{nivelesItem}"
+                                           itemLabel="#{nivelesItem.nivNombre.toString()}"
+                                           />
+                            <p:ajax update="paralelos, insNumIns" listener="#{inscripcionesListController.actualizarParalelos()}"/>
+                        </p:selectOneMenu>
+
+
+
+
+
+                        <p:outputLabel value="Paralelos" for="paralelos" />
+                        <p:selectOneMenu id="paralelos" value="#{inscripcionesListController.paralelo}" required="true" requiredMessage="#{myBundle.CreateInscripcionesRequiredMessage_paralelos}" >
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}" itemValue="#{null}" noSelectionOption="true"/>
+                            <f:selectItems value="#{inscripcionesListController.paralelosToList}"
+                                           var="paralelosItem"
+                                           itemValue="#{paralelosItem}"
+                                           itemLabel="#{paralelosItem.parNombre.toString()}"
+                                           />
+                            <p:ajax update="insNumIns" listener="#{inscripcionesListController.actualizarNumIns()}"/>
+                        </p:selectOneMenu>
+
+                        <h:outputLabel value="Inscritos" for="insNumIns" />
+                        <p:outputLabel id="insNumIns" value="#{inscripcionesListController.numIns}" title="Numero Inscritos" />
+
+                        <h:outputLabel value="Valor" for="insValor" />
+                        <h:inputText id="insValor" value="#{inscripcionesListController.selected.insValor}" title="Valor" onkeypress="this.value = this.value.toUpperCase();"/>
+
+                        <h:outputLabel value="Observaciones" for="insObservaciones" />
+                        <h:inputText id="insObservaciones" size="200" value="#{inscripcionesListController.selected.insObservaciones}" title="Observaciones" onkeypress="this.value = this.value.toUpperCase();"/>
+
+
+
+
+
+                    </p:panelGrid>
+
+                </p:panel>
+
+
+                <h:panelGroup id="display" >
+
+                    <p:commandButton actionListener="#{inscripcionesListController.guardar()}"  onclick="rc()"  update="panelEstudiante, panelInscripcion, estCedula, streamedContent" value="Guardar" >
+                    </p:commandButton>
+
+                    <p:remoteCommand name="rc" update=":growl" actionListener="#{inscripcionesListController.execute}" />
+
+                    <p:commandButton value="Cancelar" onclick="PF('InscripcionesCreateDialog').hide()"/>
+
+                    <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                        <p:graphicImage value="/images/loading.gif" />
+                    </p:dialog>
+
+                    <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+                    <p:ajaxStatus style="display:block;margin-bottom:2em;height:24px;">
+                        <!--                        <f:facet name="default">
+                                                    <h:outputText value="Status: StandBy" />
+                                                </f:facet>-->
+
+                        <f:facet name="start">
+                            <p:graphicImage value="/images/loading.gif"   />
+                        </f:facet>
+
+                        <!--                        <f:facet name="complete">
+                                                    <h:outputText value="Status: Completed" />
+                                                </f:facet>-->
+                    </p:ajaxStatus>
+
+
+                </h:panelGroup>
+
+            </h:panelGroup>
+
+            <p:panel id="panelRep" rendered="#{inscripcionesListController.boolPdf}">
+                <p:tabView id="streamedContent"  >
+                    <p:tab title="Inscripcion">  
+                        <pe:documentViewer height="500" value="#{inscripcionPreview.pdf}"/>  
+                    </p:tab>  
+                </p:tabView>  
+            </p:panel>
+
+
+
+
+        </h:form>
+
+
+    </ui:composition>
+
+</html>
