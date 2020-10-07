@@ -1,2 +1,0 @@
-# sjp
-Inscripciones Catesismo Parroquia
