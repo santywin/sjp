@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="InscripcionesViewDlg" widgetVar="InscripcionesViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewInscripcionesTitle}">
+            <h:form id="InscripcionesViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{inscripcionesController.selected != null}">
+                        <h:outputText value="#{bundle.ViewInscripcionesLabel_insCodigo}"/>
+                        <h:outputText value="#{inscripcionesController.selected.insCodigo}" title="#{bundle.ViewInscripcionesTitle_insCodigo}"/>
+                        <h:outputText value="#{bundle.ViewInscripcionesLabel_insFecha}"/>
+                        <h:outputText value="#{inscripcionesController.selected.insFecha}" title="#{bundle.ViewInscripcionesTitle_insFecha}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewInscripcionesLabel_insEstado}"/>
+                        <h:outputText value="#{inscripcionesController.selected.insEstado = 'A' ? 'Aprobado':'Reprobado'}" title="#{bundle.ViewInscripcionesTitle_insEstado}"/>
+                       
+                        <h:outputText value="#{bundle.ViewInscripcionesLabel_estCodigo}"/>
+                        <h:outputText value="#{inscripcionesController.selected.estudiantes.estNomMadre}" title="#{bundle.ViewInscripcionesTitle_estCodigo}"/>
+                        <h:outputText value="#{bundle.ViewInscripcionesLabel_parCodigo}"/>
+                        <h:outputText value="#{inscripcionesController.selected.paralelos.parNombre}" title="#{bundle.ViewInscripcionesTitle_parCodigo}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="InscripcionesViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

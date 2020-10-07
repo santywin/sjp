@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListEstudiantesTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="EstudiantesListForm">
+                <p:panel header="#{bundle.ListEstudiantesTitle}">
+                    <p:dataTable id="datalist" value="#{estudiantesController.items}" var="item"
+                                 selectionMode="single" selection="#{estudiantesController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.estCodigo}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 widgetVar="datalistTable"
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+
+                        <p:column filterBy="#{item.iglesias}" headerText="Iglesia" filterMatchMode="exact">
+
+                            <f:facet name="filter">
+                                <p:selectOneMenu onchange="PF('datalistTable').filter()" style="width: 75%" >
+                                    <f:selectItem itemLabel="Seleccione Uno" itemValue="#{null}" noSelectionOption="true" />
+                                    <f:selectItems value="#{iglesiasController.items}"
+                                                   var="iglesiasItem"
+                                                   itemValue="#{iglesiasItem}"
+                                                   itemLabel="#{iglesiasItem.iglNombre.toString()}"
+                                                   />
+                                </p:selectOneMenu>
+                            </f:facet>
+
+                            <h:outputText value="#{item.iglesias.iglNombre}"/>
+                        </p:column>
+
+
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstudiantesTitle_estNombre}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estNombre}"/>
+                        </p:column>
+
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstudiantesTitle_estTelefono}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estTelefono}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstudiantesTitle_estCelular}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estCelular}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstudiantesTitle_estFecNacimiento}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estFecNacimiento}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstudiantesTitle_estFecBautismo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estFecBautismo}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListEstudiantesTitle_estRepresentante}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estRepresentante}"/>
+                        </p:column>
+
+
+
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{estudiantesController.prepareCreate}" update=":EstudiantesCreateForm" oncomplete="PF('EstudiantesCreateDialog').show()"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":EstudiantesViewForm" oncomplete="PF('EstudiantesViewDialog').show()" disabled="#{empty estudiantesController.selected}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":EstudiantesEditForm" oncomplete="PF('EstudiantesEditDialog').show()" disabled="#{empty estudiantesController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{estudiantesController.destroy}" update=":growl,datalist" disabled="#{empty estudiantesController.selected}"/>
+                        </f:facet>
+                    </p:dataTable>
+                    <div>
+
+                        <h:commandLink>
+                            <p:graphicImage value="/images/excel.png" />
+                            <p:dataExporter type="xls" target="datalist" fileName="items" pageOnly="true"/>
+                        </h:commandLink>
+
+                        <h:commandLink>
+                            <p:graphicImage value="/images/pdf.png" />
+                            <p:dataExporter type="pdf" target="datalist" fileName="items" pageOnly="true" />
+                        </h:commandLink>
+
+                        <h:commandLink>
+                            <p:graphicImage value="/images/csv.png" />
+                            <p:dataExporter type="csv" target="datalist" fileName="items" pageOnly="true" />
+                        </h:commandLink>
+
+                    </div>
+                </p:panel>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

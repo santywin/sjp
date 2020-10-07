@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="IglesiasViewDlg" widgetVar="IglesiasViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewIglesiasTitle}">
+            <h:form id="IglesiasViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{iglesiasController.selected != null}">
+                        <h:outputText value="#{bundle.ViewIglesiasLabel_iglCodigo}"/>
+                        <h:outputText value="#{iglesiasController.selected.iglCodigo}" title="#{bundle.ViewIglesiasTitle_iglCodigo}"/>
+                        <h:outputText value="#{bundle.ViewIglesiasLabel_iglNombre}"/>
+                        <h:outputText value="#{iglesiasController.selected.iglNombre}" title="#{bundle.ViewIglesiasTitle_iglNombre}"/>
+                        
+                         <h:outputText value="Texto"/>
+                         <h:outputText value="#{iglesiasController.selected.iglTexto}" title="Texto"/>
+                        
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="IglesiasViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
